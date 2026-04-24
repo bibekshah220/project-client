@@ -30,3 +30,14 @@ export async function loginUser({ email, password }) {
     throw error;
   }
 }
+
+export async function logoutUser() {
+  try {
+    await axios.post("http://localhost:8080/api/auth/logout", {}, {
+      withCredentials: true,
+    });
+  } catch (error) {
+    console.error("Logout failed:", error);
+    throw error;
+  }}
+  

@@ -1,5 +1,5 @@
 import React from "react";
-import "../auth.from.scss";
+import "../auth.form.scss";
 const Login = () => {
   return (
     <main>

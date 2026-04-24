@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../auth.form.scss';
 
 const Register = () => {
   const navigate = useNavigate();

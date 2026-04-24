@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import "../auth.form.scss";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../auth.form.scss";
 
 const Login = () => {
   const navigate = useNavigate();

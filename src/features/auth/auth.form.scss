@@ -52,4 +52,13 @@ main {
             margin-top: -0.4rem;
         }
     }
+
+    a{
+        color: #ea216e;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }

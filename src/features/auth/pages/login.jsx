@@ -1,6 +1,11 @@
 import React from "react";
 import "../auth.form.scss";
 const Login = () => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle login logic here
+  };
   return (
     <main>
       <div className="from-container">

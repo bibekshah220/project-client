@@ -11,8 +11,15 @@ export const useAuth = () => {
     const handleLogin = async (email, password) => {
         setLoading(true)    
         const data = await loginUser({ email, password })
-        setUser(userData)
+        setUser(data.user)
         setLoading(false)
     }   
+
+    const handleRegister = async (username, email, password) => {
+        setLoading(true)    
+        const data = await registerUser({ username, email, password })
+        setUser(data.user)
+        setLoading(false)
+    }
 
 }   

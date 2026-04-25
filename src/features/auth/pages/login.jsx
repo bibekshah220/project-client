@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../auth.form.scss";
+import { useAuth } from "../hooks/useAuth.js";
 
 const Login = () => {
+  
   const navigate = useNavigate();
+  const { loading, handleLogin } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -30,7 +33,7 @@ const Login = () => {
       setErrors(newErrors);
       return;
     }
-    // Handle login logic here
+    handleLogin(formData.email, formData.password);
   };
 
   return (

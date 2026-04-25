@@ -22,4 +22,11 @@ export const useAuth = () => {
         setLoading(false)
     }
 
+    const handleLogout = async () => {
+        setLoading(true)    
+       const data = await logoutUser()
+        setUser(null)
+        setLoading(false)
+    }
+    return { user, loading, handleLogin, handleRegister, handleLogout }
 }   

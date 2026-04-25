@@ -4,7 +4,6 @@ import {
   loginUser,
   registerUser,
   logoutUser,
-  getMe,
 } from "../services/auth.api.js";
 
 export const useAuth = () => {

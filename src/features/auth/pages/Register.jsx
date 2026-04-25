@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../auth.form.scss';
+import { useAuth } from '../hooks/useAuth.js';
 
 const Register = () => {
   const navigate = useNavigate();
+  const { loading, handleRegister } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -32,14 +34,14 @@ const Register = () => {
     setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    // Handle registration logic here
+    await handleRegister(formData.username, formData.email, formData.password);
     navigate('/login');
   };
 

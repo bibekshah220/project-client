@@ -28,8 +28,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleLogin(email, password);
-
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    await handleLogin(formData.email, formData.password);
   }
 
   if (loading) {

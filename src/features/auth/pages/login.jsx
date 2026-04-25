@@ -26,15 +26,11 @@ const Login = () => {
     setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newErrors = validate();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-    handleLogin(formData.email, formData.password);
-  };
+    await handleLogin(email, password);
+
+  }
 
   if (loading) {
     return (

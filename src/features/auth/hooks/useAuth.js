@@ -10,4 +10,9 @@ export const useAuth = () => {
 
     const handleLogin = async (email, password) => {
         setLoading(true)    
-}   }
+        const data = await loginUser({ email, password })
+        setUser(userData)
+        setLoading(false)
+    }   
+
+}   

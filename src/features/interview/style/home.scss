@@ -1,80 +1,207 @@
 .home {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  padding: 2rem;
+  background-color: #0d0d12;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+
+  .interview-input-group {
     width: 100%;
-    height: 100vh;
     display: flex;
-    padding: 2rem;
+    gap: 2rem;
 
-    .interview-input-group {
+    // ── LEFT ──────────────────────────────────────
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .left-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #6b6b8a;
+      }
+
+      textarea {
+        flex: 1;
         width: 100%;
-        display: flex;
-        gap: 2rem;
+        padding: 1rem 1.1rem;
+        border: 1px solid #2a2a3a;
+        border-radius: 10px;
+        background-color: #16161f;
+        color: #e8e6f0;
+        font-size: 0.92rem;
+        font-family: inherit;
+        line-height: 1.7;
+        resize: none;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
 
-        .left {
-            flex: 1;
-            display: flex;
-
-            textarea {
-                width: 100%;
-                height: 100%;
-                padding: 1rem;
-                border: 1px solid #444;
-                border-radius: 8px;
-                background-color: #1a1a1a;
-                color: whitesmoke;
-                font-size: 1rem;
-                resize: none;
-
-                &::placeholder {
-                    color: #888;
-                }
-            }
+        &::placeholder {
+          color: #45455a;
         }
 
-        .right {
-            flex: 1;
+        &:focus {
+          border-color: #5b4ef8;
+          box-shadow: 0 0 0 3px rgba(91, 78, 248, 0.15);
+        }
+      }
+    }
+
+    // ── RIGHT ─────────────────────────────────────
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        label {
+          font-size: 0.72rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #6b6b8a;
+        }
+
+        // ── Upload Zone ──
+        .upload-zone {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 1rem 1.1rem;
+          border: 1.5px dashed #2a2a3a;
+          border-radius: 10px;
+          background-color: #16161f;
+          cursor: pointer;
+          transition: border-color 0.2s, background-color 0.2s;
+
+          &:hover {
+            border-color: #5b4ef8;
+            background-color: rgba(91, 78, 248, 0.04);
+          }
+
+          input[type='file'] {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+          }
+
+          .upload-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #1e1e2e;
+            border: 1px solid #2a2a3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+            svg {
+              width: 16px;
+              height: 16px;
+              stroke: #6b6b8a;
+            }
+          }
+
+          .upload-text {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2px;
 
-            .input-group {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-
-                label {
-                    font-size: 0.9rem;
-                    font-weight: 600;
-                    color: #ccc;
-                }
-
-                input[type="file"] {
-                    padding: 0.6rem;
-                    border: 1px solid #444;
-                    border-radius: 8px;
-                    background-color: #1a1a1a;
-                    color: whitesmoke;
-                }
-
-                textarea {
-                    width: 100%;
-                    min-height: 150px;
-                    padding: 1rem;
-                    border: 1px solid #444;
-                    border-radius: 8px;
-                    background-color: #1a1a1a;
-                    color: whitesmoke;
-                    font-size: 1rem;
-                    resize: vertical;
-
-                    &::placeholder {
-                        color: #888;
-                    }
-                }
+            .upload-main {
+              font-size: 0.84rem;
+              font-weight: 500;
+              color: #c0bedd;
             }
 
-            .generate-btn {
-                margin-top: auto;
+            .upload-hint {
+              font-size: 0.72rem;
+              color: #45455a;
             }
+          }
+
+          &.has-file {
+            border-style: solid;
+            border-color: rgba(91, 78, 248, 0.4);
+            background-color: rgba(91, 78, 248, 0.06);
+
+            .upload-main { color: #9b93ff; }
+          }
         }
+
+        // ── Self Description textarea ──
+        textarea {
+          width: 100%;
+          min-height: 150px;
+          padding: 1rem 1.1rem;
+          border: 1px solid #2a2a3a;
+          border-radius: 10px;
+          background-color: #16161f;
+          color: #e8e6f0;
+          font-size: 0.88rem;
+          font-family: inherit;
+          line-height: 1.7;
+          resize: vertical;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+
+          &::placeholder {
+            color: #45455a;
+          }
+
+          &:focus {
+            border-color: #5b4ef8;
+            box-shadow: 0 0 0 3px rgba(91, 78, 248, 0.15);
+          }
+        }
+      }
+
+      // ── Button ────────────────────────────────
+      .generate-btn {
+        margin-top: auto;
+        width: 100%;
+        padding: 0.85rem 1.25rem;
+        background: #5b4ef8;
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 0.92rem;
+        font-weight: 600;
+        font-family: inherit;
+        letter-spacing: -0.01em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.15s, transform 0.1s;
+
+        &::after {
+          content: '→';
+          font-size: 1rem;
+        }
+
+        &:hover {
+          background: #4a3de0;
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
     }
+  }
 }

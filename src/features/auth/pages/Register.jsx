@@ -8,7 +8,6 @@ const Register = () => {
   const { loading, handleRegister } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
-    username: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -18,9 +17,6 @@ const Register = () => {
   const validate = () => {
     const newErrors = {};
     if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!formData.username.trim()) newErrors.username = 'Username is required';
-    else if (formData.username.length < 3) newErrors.username = 'Username must be at least 3 characters';
-    else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) newErrors.username = 'Username can only contain letters, numbers, and underscores';
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     if (!formData.password) newErrors.password = 'Password is required';
     else if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters';
@@ -41,7 +37,7 @@ const Register = () => {
       setErrors(newErrors);
       return;
     }
-    await handleRegister(formData.username, formData.email, formData.password);
+    await handleRegister(formData.email, formData.password);
     navigate('/login');
   };
 
@@ -61,19 +57,6 @@ const Register = () => {
               onChange={handleChange}
             />
             {errors.name && <span className="error">{errors.name}</span>}
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Enter your username"
-              value={formData.username}
-              onChange={handleChange}
-            />
-            {errors.username && <span className="error">{errors.username}</span>}
           </div>
 
           <div className="input-group">

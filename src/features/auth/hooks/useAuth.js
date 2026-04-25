@@ -22,10 +22,10 @@ export const useAuth = () => {
     }
   };
 
-  const handleRegister = async (username, email, password) => {
+  const handleRegister = async (email, password) => {
     setLoading(true);
     try {
-      const data = await registerUser({ username, email, password });
+      const data = await registerUser({ email, password });
       setUser(data.user);
     } catch (error) {
       console.error("Registration failed:", error);

@@ -36,6 +36,16 @@ const Login = () => {
     handleLogin(formData.email, formData.password);
   };
 
+  if (loading) {
+    return (
+      <main>
+        <div className="form-container">  
+          <h1>Loading...</h1>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main>
       <div className="form-container">

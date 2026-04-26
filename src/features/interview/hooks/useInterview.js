@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { generateInterviewReport } from "../api/interview.api.js";
+import { generateInterviewReport, fetchInterviewReport } from "../api/interview.api.js";
 
 export const useInterview = () => {
   const [loading, setLoading] = useState(false);
@@ -28,5 +28,22 @@ export const useInterview = () => {
     }
   };
 
-  return { loading, report, error, generate };
+  const fetchReport = async (id) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchInterviewReport(id);
+      setReport(data.interviewReport);
+      return data.interviewReport;
+    } catch (err) {
+      const message =
+        err.response?.data?.message || err.message || "Failed to load report";
+      setError(message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { loading, report, error, generate, fetchReport };
 };

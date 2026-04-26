@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../style/Home.scss'
 import { useInterview } from '../hooks/useInterview.js'
 
@@ -11,7 +12,8 @@ const Home = () => {
   const [jdError, setJdError]     = useState(false)
   const jdRef = useRef(null)
   const sdRef = useRef(null)
-  const { loading, report, error, generate } = useInterview()
+  const navigate = useNavigate()
+  const { loading, error, generate } = useInterview()
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
@@ -40,11 +42,14 @@ const Home = () => {
     }
 
     try {
-      await generate({
+      const result = await generate({
         resume: file,
         jobDescription: jd,
         selfDescription: sdRef.current?.value.trim() || '',
       })
+      if (result?._id) {
+        navigate(`/interview/${result._id}`)
+      }
     } catch {
       // error is already set in the hook
     }

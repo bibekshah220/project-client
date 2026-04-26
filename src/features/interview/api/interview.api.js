@@ -25,3 +25,12 @@ export async function generateInterviewReport({ resume, jobDescription, selfDesc
   });
   return res.data;
 }
+
+/**
+ * GET /api/interview/:id
+ * Fetches a single interview report by its ID.
+ */
+export async function fetchInterviewReport(id) {
+  const res = await api.get(`/${id}`);
+  return res.data;
+}

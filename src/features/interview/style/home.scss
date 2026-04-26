@@ -7,7 +7,7 @@
   font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
   overflow: hidden;
 
-  // ── Page load stagger ──────────────────────────
+  // Page load stagger 
   .left  { animation: slideUp 0.55s cubic-bezier(.22, 1, .36, 1) 0.05s both; }
   .right { animation: slideUp 0.55s cubic-bezier(.22, 1, .36, 1) 0.18s both; }
 
@@ -22,7 +22,7 @@
     gap: 2rem;
   }
 
-  // ── LEFT ───────────────────────────────────────
+  //LEFT 
   .left {
     flex: 1;
     display: flex;
@@ -76,7 +76,7 @@
     }
   }
 
-  // ── RIGHT ──────────────────────────────────────
+  // RIGHT 
   .right {
     flex: 1;
     display: flex;
@@ -100,7 +100,6 @@
         transition: color 0.2s;
       }
 
-      // ── Upload Zone ──────────────────────────
       .upload-zone {
         position: relative;
         display: flex;
@@ -205,7 +204,6 @@
         }
       }
 
-      // ── Self Description textarea ────────────
       textarea {
         width: 100%;
         min-height: 138px;
@@ -233,7 +231,6 @@
       }
     }
 
-    // ── Generate Button ───────────────────────
     .generate-btn {
       margin-top: auto;
       width: 100%;
@@ -254,7 +251,6 @@
       overflow: hidden;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 
-      // shimmer sweep
       &::before {
         content: '';
         position: absolute;
@@ -302,7 +298,7 @@
         display: inline-block;
       }
 
-      // loading spinner inside button
+  
       &.loading .btn-text::after {
         content: '';
         display: inline-block;
@@ -318,7 +314,7 @@
     }
   }
 
-  // ── Char counter ───────────────────────────────
+  
   .char-counter {
     font-size: 0.68rem;
     color: transparent;
@@ -331,7 +327,6 @@
     &.warn   { color: #f59e0b; }
   }
 
-  // ── Shared keyframes ───────────────────────────
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
     20%, 60%  { transform: translateX(-5px); }

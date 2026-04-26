@@ -336,4 +336,11 @@
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
+
+  .api-error {
+    font-size: 0.8rem;
+    color: #f87171;
+    text-align: center;
+    margin-top: -0.5rem;
+  }
 }

@@ -1,14 +1,17 @@
 import React, { useState, useRef } from 'react'
 import '../style/Home.scss'
+import { useInterview } from '../hooks/useInterview.js'
 
 const Home = () => {
   const [fileName, setFileName]   = useState(null)
+  const [file, setFile]           = useState(null)
   const [fileError, setFileError] = useState(null)
   const [jdCount, setJdCount]     = useState(0)
   const [sdCount, setSdCount]     = useState(0)
-  const [loading, setLoading]     = useState(false)
   const [jdError, setJdError]     = useState(false)
   const jdRef = useRef(null)
+  const sdRef = useRef(null)
+  const { loading, report, error, generate } = useInterview()
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
@@ -17,15 +20,17 @@ const Home = () => {
     if (file.size > 5 * 1024 * 1024) {
       setFileError('Exceeds 5 MB limit — pick a smaller file')
       setFileName(null)
+      setFile(null)
       e.target.value = ''
       return
     }
 
     setFileError(null)
     setFileName(file.name)
+    setFile(file)
   }
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     const jd = jdRef.current?.value.trim()
     if (!jd) {
       setJdError(true)
@@ -33,8 +38,16 @@ const Home = () => {
       setTimeout(() => setJdError(false), 1800)
       return
     }
-    setLoading(true)
-    // your API call goes here
+
+    try {
+      await generate({
+        resume: file,
+        jobDescription: jd,
+        selfDescription: sdRef.current?.value.trim() || '',
+      })
+    } catch {
+      // error is already set in the hook
+    }
   }
 
   const uploadClass = [
@@ -102,6 +115,7 @@ const Home = () => {
           <div className="input-group">
             <label htmlFor="selfDescription">Self Description</label>
             <textarea
+              ref={sdRef}
               name="selfDescription"
               id="selfDescription"
               placeholder="Describe yourself in a few sentences..."
@@ -123,6 +137,8 @@ const Home = () => {
             </span>
             {!loading && <span className="btn-arrow">→</span>}
           </button>
+
+          {error && <p className="api-error">{error}</p>}
 
         </div>
       </div>

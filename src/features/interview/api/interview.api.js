@@ -34,3 +34,12 @@ export async function fetchInterviewReport(id) {
   const res = await api.get(`/${id}`);
   return res.data;
 }
+
+/**
+ * GET /api/interview
+ * Fetches all interview reports for the authenticated user.
+ */
+export async function getAllInterviews() {
+  const res = await api.get("/");
+  return res.data;
+}

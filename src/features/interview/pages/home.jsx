@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import '../style/Home.scss'
+import '../style/home.scss'
 import { useInterview } from '../hooks/useInterview.js'
 
 const Home = () => {
@@ -13,7 +13,7 @@ const Home = () => {
   const jdRef = useRef(null)
   const sdRef = useRef(null)
   const navigate = useNavigate()
-  const { loading, error, generate } = useInterview()
+  const { loading, error, generateReport } = useInterview()
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
@@ -42,7 +42,7 @@ const Home = () => {
     }
 
     try {
-      const result = await generate({
+      const result = await generateReport({
         resume: file,
         jobDescription: jd,
         selfDescription: sdRef.current?.value.trim() || '',

@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Navigate } from 'react-router-dom';
 import '../auth.form.scss';
 import { useAuth } from '../hooks/useAuth.js';
 
 const Register = () => {
   const navigate = useNavigate();
-  const { loading, handleRegister } = useAuth();
+  const { user, loading, handleRegister } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,6 +13,9 @@ const Register = () => {
     confirmPassword: '',
   });
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [popup, setPopup] = useState(null);
 
   const validate = () => {
     const newErrors = {};
@@ -37,12 +40,48 @@ const Register = () => {
       setErrors(newErrors);
       return;
     }
-    await handleRegister(formData.email, formData.password);
-    navigate('/login');
+    try {
+      await handleRegister({
+        username: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+      navigate('/home');
+    } catch (err) {
+      const message = err.response?.data?.message || "Registration failed";
+      setPopup(message);
+    }
   };
+
+  useEffect(() => {
+    if (popup) {
+      const timer = setTimeout(() => setPopup(null), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [popup]);
+
+  if (loading) {
+    return (
+      <main>
+        <div className="form-container">
+          <h1>Loading...</h1>
+        </div>
+      </main>
+    );
+  }
+
+  if (user) {
+    return <Navigate to="/home" replace />;
+  }
 
   return (
     <main>
+      {popup && (
+        <div className="error-popup">
+          <span>{popup}</span>
+          <button onClick={() => setPopup(null)}>&times;</button>
+        </div>
+      )}
       <div className="form-container">
         <h1>Register</h1>
         <form onSubmit={handleSubmit}>
@@ -74,27 +113,45 @@ const Register = () => {
 
           <div className="input-group">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter password"
-              value={formData.password}
-              onChange={handleChange}
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder="Enter password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(prev => !prev)}
+              >
+                {showPassword ? '🙈' : '👁'}
+              </button>
+            </div>
             {errors.password && <span className="error">{errors.password}</span>}
           </div>
 
           <div className="input-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              placeholder="Re-enter password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-            />
+            <div className="password-wrapper">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Re-enter password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowConfirmPassword(prev => !prev)}
+              >
+                {showConfirmPassword ? '🙈' : '👁'}
+              </button>
+            </div>
             {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
           </div>
 

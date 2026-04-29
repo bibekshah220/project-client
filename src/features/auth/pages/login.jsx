@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../auth.form.scss";
 import { useAuth } from "../hooks/useAuth.js";
@@ -12,6 +12,8 @@ const Login = () => {
     password: '',
   });
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [popup, setPopup] = useState(null);
 
   const validate = () => {
     const newErrors = {};
@@ -38,9 +40,16 @@ const Login = () => {
       navigate('/home');
     } catch (err) {
       const message = err.response?.data?.message || "Login failed";
-      setErrors({ general: message });
+      setPopup(message);
     }
   }
+
+  useEffect(() => {
+    if (popup) {
+      const timer = setTimeout(() => setPopup(null), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [popup]);
 
   if (loading) {
     return (
@@ -59,9 +68,14 @@ const Login = () => {
 
   return (
     <main>
+      {popup && (
+        <div className="error-popup">
+          <span>{popup}</span>
+          <button onClick={() => setPopup(null)}>&times;</button>
+        </div>
+      )}
       <div className="form-container">
         <h1>Login</h1>
-        {errors.general && <span className="error" style={{ textAlign: 'center', display: 'block' }}>{errors.general}</span>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="email">Email</label>
@@ -78,14 +92,23 @@ const Login = () => {
 
           <div className="input-group">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter password"
-              value={formData.password}
-              onChange={handleChange}
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder="Enter password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(prev => !prev)}
+              >
+                {showPassword ? '🙈' : '👁'}
+              </button>
+            </div>
             {errors.password && <span className="error">{errors.password}</span>}
           </div>
 

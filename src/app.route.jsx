@@ -6,7 +6,7 @@ import Home from "./features/interview/pages/home.jsx";
 import Interview from "./features/interview/pages/interview.jsx";
 
 export const router = createBrowserRouter([
-  { path: "/", element: <Navigate to="/login" replace /> },
+  { path: "/", element: <Navigate to="/home" replace /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/home", 

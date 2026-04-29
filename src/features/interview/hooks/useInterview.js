@@ -1,28 +1,22 @@
-import { useState } from "react";
-import { generateInterviewReport, fetchInterviewReport } from "../api/interview.api.js";
+import { generateInterviewReport, fetchInterviewReport, getAllInterviews } from "../api/interview.api";
+import { useContext } from "react";
+import { InterviewContext } from "../interview.context";
 
 export const useInterview = () => {
-  const [loading, setLoading] = useState(false);
-  const [report, setReport] = useState(null);
-  const [error, setError] = useState(null);
+  const context = useContext(InterviewContext);
+  if (!context) {
+    throw new Error("useInterview must be used within an InterviewProvider");
+  }
+  const { loading, setLoading, report, setReport, reports, setReports } = context;
 
-  const generate = async ({ resume, jobDescription, selfDescription }) => {
+ const generateReport = async ({ resume, jobDescription, selfDescription }) => {
     setLoading(true);
-    setError(null);
-    setReport(null);
     try {
-      const data = await generateInterviewReport({
-        resume,
-        jobDescription,
-        selfDescription,
-      });
+      const data = await generateInterviewReport({ resume, jobDescription, selfDescription });
       setReport(data.interviewReport);
-      return data.interviewReport;
-    } catch (err) {
-      const message =
-        err.response?.data?.message || err.message || "Something went wrong";
-      setError(message);
-      throw err;
+      return data;
+    } catch (error) {
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -30,20 +24,29 @@ export const useInterview = () => {
 
   const fetchReport = async (id) => {
     setLoading(true);
-    setError(null);
     try {
       const data = await fetchInterviewReport(id);
       setReport(data.interviewReport);
-      return data.interviewReport;
-    } catch (err) {
-      const message =
-        err.response?.data?.message || err.message || "Failed to load report";
-      setError(message);
-      throw err;
+      return data;
+    } catch (error) {
+      throw error;
     } finally {
       setLoading(false);
     }
   };
 
-  return { loading, report, error, generate, fetchReport };
+  const fetchAllReports = async () => {
+    setLoading(true);
+    try {
+      const data = await getAllInterviews();
+      setReports(data.interviewReports);
+      return data;
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { loading, report, reports, generateReport, fetchReport, fetchAllReports };
 };

@@ -4,6 +4,7 @@ import {
   loginUser,
   registerUser,
   logoutUser,
+  getMe,
 } from "../services/auth.api.js";
 
 export const useAuth = () => {
@@ -15,20 +16,22 @@ export const useAuth = () => {
     try {
       const data = await loginUser({ email, password });
       setUser(data.user);
+      return data;
     } catch (error) {
-      console.error("Login failed:", error);
+      throw error;
     } finally {
       setLoading(false);
     }
   };
 
-  const handleRegister = async (email, password) => {
+  const handleRegister = async ({ username, email, password }) => {
     setLoading(true);
     try {
-      const data = await registerUser({ email, password });
+      const data = await registerUser({ username, email, password });
       setUser(data.user);
+      return data;
     } catch (error) {
-      console.error("Registration failed:", error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -45,5 +48,18 @@ export const useAuth = () => {
       setLoading(false);
     }
   };
-  return { user, loading, handleLogin, handleRegister, handleLogout };
+
+  const checkAuth = async () => {
+    setLoading(true);
+    try {
+      const data = await getMe();
+      setUser(data.user);
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { user, loading, handleLogin, handleRegister, handleLogout, checkAuth };
 };
